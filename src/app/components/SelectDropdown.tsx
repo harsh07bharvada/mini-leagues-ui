@@ -3,15 +3,17 @@
 interface SelectDropdownProps {
   labelText: string
   optionsList: Array<any>
+  valueKey: string
   handleSelectChange: any
 }
 const SelectDropdown = ({
   labelText,
   optionsList,
+  valueKey,
   handleSelectChange,
 }: SelectDropdownProps) => {
   const onSelectChange = (event: any) => {
-    handleSelectChange(event.target.value)
+    handleSelectChange(optionsList[event.target.value])
   }
   return (
     <>
@@ -21,8 +23,10 @@ const SelectDropdown = ({
           className="p-2.5 md:w-64 bg-white drop-shadow-lg text-slate-500 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 "
           onChange={onSelectChange}
         >
-          {optionsList.map((value) => (
-            <option key={value}>{value}</option>
+          {optionsList.map((eachOption, index) => (
+            <option key={eachOption[valueKey]} value={index}>
+              {eachOption[valueKey]}
+            </option>
           ))}
         </select>
       </div>

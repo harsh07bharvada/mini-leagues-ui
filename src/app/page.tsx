@@ -4,7 +4,8 @@ import Logo from '../../public/logo.png'
 import SalahBanner from '../../public/banner.svg'
 import { Poppins } from 'next/font/google'
 import SelectDropdown from './components/SelectDropdown'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import Button from './components/Button'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -12,7 +13,40 @@ const poppins = Poppins({
 })
 
 export default function Home() {
-  const [forCaptainUser, setForCaptainUser] = useState('')
+  const [forCaptainUserData, setForCaptainUserData] = useState({})
+  const [forPartnerUserData, setForPartnerUserData] = useState({})
+  const [againstCaptainUserData, setAgainstCaptainUserData] = useState({})
+  const [againstPartnerUserData, setAgainstPartnerUserData] = useState({})
+  const [usersList, setUsersList] = useState([])
+
+  const fetchUsersList = async () => {
+    try {
+      const res = await fetch(
+        `https://mini-leagues-api.onrender.com/api/leagues/tvtleague`,
+        {
+          method: 'GET',
+        }
+      )
+      const tvtLeagueData = await res.json()
+      const curUsersList = tvtLeagueData['standings']['results']
+      setUsersList(curUsersList)
+      setForCaptainUserData(curUsersList[0])
+      setForPartnerUserData(curUsersList[0])
+      setAgainstCaptainUserData(curUsersList[0])
+      setAgainstPartnerUserData(curUsersList[0])
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleGetLiveScoresOnClick = (event: any) => {}
+
+  const fetchComboData = async () => {}
+
+  useEffect(() => {
+    fetchUsersList()
+  }, [])
+
   return (
     <>
       {/** MAIN PAGE WRAPPER */}
@@ -44,14 +78,16 @@ export default function Home() {
               {/** FOR */}
               <div className=" flex flex-col space-y-5">
                 <SelectDropdown
-                  labelText={'Captain Team'}
-                  optionsList={['Choose a user', 'Starks', 'Targaeryans']}
-                  handleSelectChange={setForCaptainUser}
+                  labelText={'For Captain Team'}
+                  optionsList={usersList}
+                  valueKey="player_name"
+                  handleSelectChange={setForCaptainUserData}
                 />
                 <SelectDropdown
-                  labelText={'Partner Team'}
-                  optionsList={['Choose a user', 'Starks', 'Targaeryans']}
-                  handleSelectChange={setForCaptainUser}
+                  labelText={'For Partner Team'}
+                  optionsList={usersList}
+                  valueKey="player_name"
+                  handleSelectChange={setForPartnerUserData}
                 />
               </div>
 
@@ -61,19 +97,24 @@ export default function Home() {
               {/** AGAINST */}
               <div className=" flex flex-col space-y-5">
                 <SelectDropdown
-                  labelText={'Captain Team'}
-                  optionsList={['Choose a user', 'Starks', 'Targaeryans']}
-                  handleSelectChange={setForCaptainUser}
+                  labelText={'Against Captain Team'}
+                  optionsList={usersList}
+                  valueKey="player_name"
+                  handleSelectChange={setAgainstCaptainUserData}
                 />
                 <SelectDropdown
-                  labelText={'Partner Team'}
-                  optionsList={['Choose a user', 'Starks', 'Targaeryans']}
-                  handleSelectChange={setForCaptainUser}
+                  labelText={'Against Partner Team'}
+                  optionsList={usersList}
+                  valueKey="player_name"
+                  handleSelectChange={setAgainstPartnerUserData}
                 />
               </div>
             </div>
 
-            {forCaptainUser}
+            <Button
+              buttonText={'Get Live Scores 🚀'}
+              handleOnClick={handleGetLiveScoresOnClick}
+            />
           </div>
         </div>
       </div>
