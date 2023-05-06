@@ -105,7 +105,7 @@ export default function Home() {
     <>
       <div className="whole-page-wrapper flex flex-col">
         {/** MAIN PAGE WRAPPER */}
-        <div className={` flex flex-col md:w-screen md:h-screen bg-slate-50`}>
+        <div className={` flex flex-col bg-slate-50`}>
           {/** MAIN PAGE HEADER */}
           <div className="flex w-full p-5 space-x-3 justify-center items-center">
             <Image src={Logo} alt="logo" width={50} height={50} className="" />
@@ -113,23 +113,23 @@ export default function Home() {
           </div>
 
           {/** MAIN PAGE */}
-          <div className="flex flex-col grow mx-20 md:my-20 p-5 bg-white rounded-md justify-start items-center space-y-5">
+          <div className="flex flex-col grow mx-5 my-16 md:mx-20 p-5 bg-white rounded-md justify-start items-center space-y-5">
             <Image
               src={SalahBanner}
               alt="logo"
-              width={250}
-              height={250}
-              className="-mt-24"
+              width={200}
+              height={200}
+              className="-mt-24 md:w-72 md:h-72"
             />
-            <div className="text-xl">
+            <div className="text-xl text-center">
               Get fastest 🚀 live updates for your head to head match ups
               against your fiercest FPL rivals
             </div>
-            <div className="flex flex-col p-5 bg-slate-50 rounded-md">
+            <div className="flex flex-col w-full md:w-auto md:p-5 bg-slate-50 rounded-md">
               {/** FOR VS AGAINST*/}
-              <div className="flex p-5 space-x-5 justify-center items-center">
+              <div className="flex flex-col md:flex-row md:p-5 space-y-3 md:space-x-5 justify-center items-center">
                 {/** FOR */}
-                <div className=" flex flex-col space-y-5">
+                <div className=" flex flex-col w-full space-y-3">
                   <SelectDropdown
                     labelText={'For Captain Team'}
                     optionsList={usersList}
@@ -145,10 +145,12 @@ export default function Home() {
                 </div>
 
                 {/** VS */}
-                <span className="p-5 rounded-md bg-white text-xl">Vs</span>
+                <span className="p-2 md:p-5 rounded-md bg-white text-lg md:text-xl">
+                  Vs
+                </span>
 
                 {/** AGAINST */}
-                <div className=" flex flex-col space-y-5">
+                <div className=" flex flex-col w-full space-y-5">
                   <SelectDropdown
                     labelText={'Against Captain Team'}
                     optionsList={usersList}
@@ -173,7 +175,7 @@ export default function Home() {
         </div>
 
         {/** HEAD TO HEAD WRAPPER */}
-        <div className="flex w-full p-5">
+        <div className="flex w-full">
           <HeadToHeadStatsCard
             forTeamComboData={forComboTeamData}
             againstTeamComboData={againstComboTeamData}
