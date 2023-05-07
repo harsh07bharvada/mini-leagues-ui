@@ -21,8 +21,8 @@ export default function Home() {
   const [againstPartnerUserData, setAgainstPartnerUserData] = useState(null)
   const [usersList, setUsersList] = useState([])
   const [activeGameweekID, setActiveGameweekID] = useState(0)
-  const [forComboTeamData, setForComboTeamData] = useState(null)
-  const [againstComboTeamData, setAgainstComboTeamData] = useState(null)
+  const [forComboTeamStats, setForComboTeamStats] = useState(null)
+  const [againstComboTeamStats, setAgainstComboTeamStats] = useState(null)
   const [
     finalSortedCombinedHeadToHeadPicksStats,
     setFinalSortedCombinedHeadToHeadPicksStats,
@@ -89,8 +89,8 @@ export default function Home() {
         againstComboPicks
       )
 
-    setForComboTeamData(forComboTeamData)
-    setAgainstComboTeamData(againstComboTeamData)
+    setForComboTeamStats(forTeamComboData)
+    setAgainstComboTeamStats(againstTeamComboData)
     setFinalSortedCombinedHeadToHeadPicksStats(
       finalSortedCombinedHeadToHeadPicksStats
     )
@@ -178,13 +178,19 @@ export default function Home() {
 
         {/** HEAD TO HEAD WRAPPER */}
         <div className="flex w-full">
-          <HeadToHeadStatsCard
-            forTeamComboData={forComboTeamData}
-            againstTeamComboData={againstComboTeamData}
-            finalSortedCombinedHeadToHeadPicksStats={
-              finalSortedCombinedHeadToHeadPicksStats
-            }
-          />
+          {finalSortedCombinedHeadToHeadPicksStats && (
+            <HeadToHeadStatsCard
+              forTeamComboData={forComboTeamStats}
+              againstTeamComboData={againstComboTeamStats}
+              finalSortedCombinedHeadToHeadPicksStats={
+                finalSortedCombinedHeadToHeadPicksStats
+              }
+              forCaptainUserData={forCaptainUserData}
+              forPartnerUserData={forPartnerUserData}
+              againstCaptainUserData={againstCaptainUserData}
+              againstPartnerUserData={againstPartnerUserData}
+            />
+          )}
         </div>
       </div>
     </>

@@ -49,7 +49,35 @@ export const getSortedCombinedHeadToHeadPicksStats = (
   combinedHeadToHeadPickStatsValues.sort((a: any, b: any) => {
     return b['pickInfo']['playerType'] - a['pickInfo']['playerType']
   })
-  return combinedHeadToHeadPickStatsValues
+
+  let finalCombinedHeadToHeadPickStatsValues: any = {
+    forwards: [],
+    midfielders: [],
+    defenders: [],
+    goalkeepers: [],
+  }
+  for (
+    let index = 0;
+    index < combinedHeadToHeadPickStatsValues.length;
+    index++
+  ) {
+    const curVal: any = combinedHeadToHeadPickStatsValues[index]
+    switch (curVal['pickInfo']['playerType']) {
+      case 4:
+        finalCombinedHeadToHeadPickStatsValues['forwards'].push(curVal)
+        break
+      case 3:
+        finalCombinedHeadToHeadPickStatsValues['midfielders'].push(curVal)
+        break
+      case 2:
+        finalCombinedHeadToHeadPickStatsValues['defenders'].push(curVal)
+        break
+      case 1:
+        finalCombinedHeadToHeadPickStatsValues['goalkeepers'].push(curVal)
+        break
+    }
+  }
+  return finalCombinedHeadToHeadPickStatsValues
 }
 
 export const getFinalSortedCombinedHeadToHeadPicksStats = (
