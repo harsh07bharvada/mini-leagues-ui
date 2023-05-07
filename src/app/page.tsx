@@ -166,10 +166,12 @@ export default function Home() {
                 </div>
               </div>
 
-              <Button
-                buttonText={'Get Live Scores 🚀'}
-                handleOnClick={handleGetLiveScoresOnClick}
-              />
+              <div className="flex w-full p-5 grow justify-center items-center">
+                <Button
+                  buttonText={'Get Live Scores 🚀'}
+                  handleOnClick={handleGetLiveScoresOnClick}
+                />
+              </div>
             </div>
           </div>
         </div>
