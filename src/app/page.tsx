@@ -41,10 +41,6 @@ export default function Home() {
       const tvtLeagueData = await tvtLeagueResult.json()
       const curUsersList = tvtLeagueData['standings']['results']
       setUsersList(curUsersList)
-      setForCaptainUserData(curUsersList[0])
-      setForPartnerUserData(curUsersList[0])
-      setAgainstCaptainUserData(curUsersList[0])
-      setAgainstPartnerUserData(curUsersList[0])
     } catch (err) {
       console.log(err)
     }
@@ -61,27 +57,22 @@ export default function Home() {
     const forPartnerUserEntry = forPartnerUserData
       ? forPartnerUserData['entry']
       : ''
-    const forTeamComboResult = await fetch(
-      `https://mini-leagues-api.onrender.com/api/leagues/tvtleague/combodata?gameweekID=${activeGameweekID}&captainUserID=${forCaptainUserEntry}&partnerUserID=${forPartnerUserEntry}`
-    )
-
-    const forTeamComboData = await forTeamComboResult.json()
-    console.log('for combo data', forTeamComboData)
     const againstCaptainUserEntry = againstCaptainUserData
       ? againstCaptainUserData['entry']
       : ''
     const againstPartnerUserEntry = againstPartnerUserData
       ? againstPartnerUserData['entry']
       : ''
-    const againstTeamComboResult = await fetch(
-      `https://mini-leagues-api.onrender.com/api/leagues/tvtleague/combodata?gameweekID=${activeGameweekID}&captainUserID=${againstCaptainUserEntry}&partnerUserID=${againstPartnerUserEntry}`
+    const forVsAgainstComboResult = await fetch(
+      `https://mini-leagues-api.onrender.com/api/leagues/tvtleague/forcombovsagainstcombo?gameweekID=${activeGameweekID}&forCaptainUserID=${forCaptainUserEntry}&forPartnerUserID=${forPartnerUserEntry}&againstCaptainUserID=${againstCaptainUserEntry}&againstPartnerUserID=${againstPartnerUserEntry}`
     )
 
-    const againstTeamComboData = await againstTeamComboResult.json()
-    console.log('against combo data', againstTeamComboData)
+    const forVsAgainstComboData: any = await forVsAgainstComboResult.json()
+    console.log('for vs against combo data', forVsAgainstComboResult)
 
-    const forComboPicks = forTeamComboData['comboPicks']
-    const againstComboPicks = againstTeamComboData['comboPicks']
+    const forComboPicks = forVsAgainstComboData['forComboData']['comboPicks']
+    const againstComboPicks =
+      forVsAgainstComboData['againstComboData']['comboPicks']
 
     const finalSortedCombinedHeadToHeadPicksStats: any =
       getFinalSortedCombinedHeadToHeadPicksStats(
@@ -89,12 +80,21 @@ export default function Home() {
         againstComboPicks
       )
 
-    setForComboTeamStats(forTeamComboData)
-    setAgainstComboTeamStats(againstTeamComboData)
+    setForComboTeamStats(forVsAgainstComboData['forComboData'])
+    setAgainstComboTeamStats(forVsAgainstComboData['againstComboData'])
     setFinalSortedCombinedHeadToHeadPicksStats(
       finalSortedCombinedHeadToHeadPicksStats
     )
     console.log(finalSortedCombinedHeadToHeadPicksStats)
+  }
+
+  const isButtonDisabled = () => {
+    return (
+      !forCaptainUserData ||
+      !forPartnerUserData ||
+      !againstCaptainUserData ||
+      !againstPartnerUserData
+    )
   }
 
   useEffect(() => {
@@ -135,12 +135,14 @@ export default function Home() {
                     optionsList={usersList}
                     valueKey="player_name"
                     handleSelectChange={setForCaptainUserData}
+                    defaultOption={'Choose the user'}
                   />
                   <SelectDropdown
                     labelText={'For Partner Team'}
                     optionsList={usersList}
                     valueKey="player_name"
                     handleSelectChange={setForPartnerUserData}
+                    defaultOption={'Choose the user'}
                   />
                 </div>
 
@@ -154,12 +156,14 @@ export default function Home() {
                   <SelectDropdown
                     labelText={'Against Captain Team'}
                     optionsList={usersList}
+                    defaultOption={'Choose the user'}
                     valueKey="player_name"
                     handleSelectChange={setAgainstCaptainUserData}
                   />
                   <SelectDropdown
                     labelText={'Against Partner Team'}
                     optionsList={usersList}
+                    defaultOption={'Choose the user'}
                     valueKey="player_name"
                     handleSelectChange={setAgainstPartnerUserData}
                   />
@@ -170,6 +174,7 @@ export default function Home() {
                 <Button
                   buttonText={'Get Live Scores 🚀'}
                   handleOnClick={handleGetLiveScoresOnClick}
+                  isDisabled={isButtonDisabled()}
                 />
               </div>
             </div>

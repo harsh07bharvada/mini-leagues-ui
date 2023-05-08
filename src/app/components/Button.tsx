@@ -1,14 +1,16 @@
 'use client'
 
 interface ButtonProps {
+  isDisabled: boolean
   buttonText: string
   handleOnClick: any
 }
-const Button = ({ buttonText, handleOnClick }: ButtonProps) => {
+const Button = ({ isDisabled, buttonText, handleOnClick }: ButtonProps) => {
   return (
     <>
       <button
-        className="bg-orange-400 p-5 rounded-md text-white font-semibold"
+        disabled={isDisabled}
+        className="bg-orange-400 p-5 rounded-md text-white font-semibold disabled:bg-slate-400"
         onClick={(event) => {
           handleOnClick(event)
         }}
