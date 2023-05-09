@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 interface HeadToHeadStatsCardProps {
+  curRef: any
   forTeamComboData: any
   forCaptainUserData: any
   forPartnerUserData: any
@@ -11,6 +12,7 @@ interface HeadToHeadStatsCardProps {
   finalSortedCombinedHeadToHeadPicksStats: any
 }
 const HeadToHeadStatsCard = ({
+  curRef,
   forTeamComboData,
   forCaptainUserData,
   forPartnerUserData,
@@ -60,7 +62,10 @@ const HeadToHeadStatsCard = ({
   ])
   return (
     <>
-      <div className="w-full p-5 bg-white flex flex-col items-center">
+      <div
+        ref={curRef}
+        className="w-full p-5 bg-white flex flex-col items-center"
+      >
         <div className="flex bg-slate-100 rounded-lg -mt-10 w-full md:w-2/3 text-xs md:text-lg">
           <div
             className={`flex w-1/2 h-full py-5 rounded-l-lg ${
@@ -151,7 +156,14 @@ const HeadToHeadStatsCard = ({
                           {/** EACH PARAMETER */}
                           <div className="flex flex-col space-y-3">
                             <div className="text-slate-600">Total Points</div>
-                            <div className="flex p-2 rounded-md bg-white text-black justify-center items-center">
+                            <div
+                              className={`flex p-2 rounded-md ${
+                                categoryPick['forMultiplier'] >=
+                                categoryPick['againstMultiplier']
+                                  ? 'bg-green-50'
+                                  : 'bg-red-50'
+                              } text-black justify-center items-center`}
+                            >
                               {categoryPick['forMultiplier'] *
                                 categoryPick['pickInfo']['points']}
                             </div>
@@ -163,7 +175,14 @@ const HeadToHeadStatsCard = ({
                           {/** EACH PARAMETER */}
                           <div className="flex flex-col space-y-3">
                             <div className="text-slate-600">Total Points</div>
-                            <div className="flex p-2 rounded-md bg-white text-black justify-center items-center">
+                            <div
+                              className={`flex p-2 rounded-md ${
+                                categoryPick['againstMultiplier'] >=
+                                categoryPick['forMultiplier']
+                                  ? 'bg-green-50'
+                                  : 'bg-red-50'
+                              } text-black justify-center items-center`}
+                            >
                               {categoryPick['againstMultiplier'] *
                                 categoryPick['pickInfo']['points']}
                             </div>

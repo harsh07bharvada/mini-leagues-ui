@@ -2,19 +2,16 @@
 import Image from 'next/image'
 import Logo from '../../public/logo.png'
 import SalahBanner from '../../public/banner.svg'
-import { Poppins } from 'next/font/google'
 import SelectDropdown from './components/SelectDropdown'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Button from './components/Button'
 import { getFinalSortedCombinedHeadToHeadPicksStats } from './utils/commonUtils'
 import HeadToHeadStatsCard from './components/HeadToHeadStatsCard'
-
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['100', '400', '500', '700', '800'],
-})
+import { flushSync } from 'react-dom'
+import React from 'react'
 
 export default function Home() {
+  const headToHeadStatsCardRef = useRef<null | HTMLDivElement>(null)
   const [forCaptainUserData, setForCaptainUserData] = useState(null)
   const [forPartnerUserData, setForPartnerUserData] = useState(null)
   const [againstCaptainUserData, setAgainstCaptainUserData] = useState(null)
@@ -47,7 +44,10 @@ export default function Home() {
   }
 
   const handleGetLiveScoresOnClick = async (event: any) => {
-    await fetchComboData()
+    flushSync(async () => {
+      await fetchComboData()
+    })
+    headToHeadStatsCardRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
   const fetchComboData = async () => {
@@ -185,6 +185,7 @@ export default function Home() {
         <div className="flex w-full">
           {finalSortedCombinedHeadToHeadPicksStats && (
             <HeadToHeadStatsCard
+              curRef={headToHeadStatsCardRef}
               forTeamComboData={forComboTeamStats}
               againstTeamComboData={againstComboTeamStats}
               finalSortedCombinedHeadToHeadPicksStats={
