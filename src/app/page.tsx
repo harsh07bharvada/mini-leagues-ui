@@ -28,12 +28,12 @@ export default function Home() {
   const fetchUsersList = async () => {
     try {
       const activeGameweekResult = await fetch(
-        `https://material-butternut-alfalfa.glitch.me/api/gameweek/active`
+        `https://mini-leagues-api.glitch.me/api/gameweek/active`
       )
       const activeGameweekData = await activeGameweekResult.json()
       setActiveGameweekID(activeGameweekData['gameweekID'])
       const tvtLeagueResult = await fetch(
-        `https://material-butternut-alfalfa.glitch.me/api/leagues/tvtleague`
+        `https://mini-leagues-api.glitch.me/api/leagues/tvtleague`
       )
       const tvtLeagueData = await tvtLeagueResult.json()
       const curUsersList = tvtLeagueData['standings']['results']
@@ -64,7 +64,7 @@ export default function Home() {
       ? againstPartnerUserData['entry']
       : ''
     const forVsAgainstComboResult = await fetch(
-      `https://material-butternut-alfalfa.glitch.me/api/leagues/tvtleague/forcombovsagainstcombo?gameweekID=${activeGameweekID}&forCaptainUserID=${forCaptainUserEntry}&forPartnerUserID=${forPartnerUserEntry}&againstCaptainUserID=${againstCaptainUserEntry}&againstPartnerUserID=${againstPartnerUserEntry}`
+      `https://mini-leagues-api.glitch.me/api/leagues/tvtleague/forcombovsagainstcombo?gameweekID=${activeGameweekID}&forCaptainUserID=${forCaptainUserEntry}&forPartnerUserID=${forPartnerUserEntry}&againstCaptainUserID=${againstCaptainUserEntry}&againstPartnerUserID=${againstPartnerUserEntry}`
     )
 
     const forVsAgainstComboData: any = await forVsAgainstComboResult.json()

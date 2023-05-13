@@ -26,13 +26,19 @@ const HeadToHeadStatsCard = ({
 
   useEffect(() => {
     setForTotalPoints(
-      forTeamComboData['captainUserGameweekData']['points'] * 2 +
-        forTeamComboData['partnerUserGameweekData']['points']
+      (forTeamComboData['captainUserGameweekData']['points'] -
+        forTeamComboData['captainUserGameweekData']['eventTransfersCost']) *
+        2 +
+        (forTeamComboData['partnerUserGameweekData']['points'] -
+          forTeamComboData['partnerUserGameweekData']['eventTransfersCost'])
     )
 
     setAgainstTotalPoints(
-      againstTeamComboData['captainUserGameweekData']['points'] * 2 +
-        againstTeamComboData['partnerUserGameweekData']['points']
+      (againstTeamComboData['captainUserGameweekData']['points'] -
+        againstTeamComboData['captainUserGameweekData']['eventTransfersCost']) *
+        2 +
+        (againstTeamComboData['partnerUserGameweekData']['points'] -
+          againstTeamComboData['partnerUserGameweekData']['eventTransfersCost'])
     )
 
     console.log(
